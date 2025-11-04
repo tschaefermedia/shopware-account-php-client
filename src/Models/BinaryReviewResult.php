@@ -41,6 +41,7 @@ class BinaryReviewResult
                 return true;
             }
         }
+
         return false;
     }
 
@@ -61,6 +62,7 @@ class BinaryReviewResult
                 );
             }
         }
+
         return implode("\n", $summary);
     }
 }

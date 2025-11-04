@@ -36,6 +36,7 @@ class Token
     {
         // Token is valid if it expires in more than 60 seconds
         $now = new DateTimeImmutable();
+
         return $this->expire->getTimestamp() - $now->getTimestamp() > 60;
     }
 
