@@ -1,0 +1,27 @@
+{
+    "name": "shopware/account-api-client",
+    "description": "PHP client for the Shopware Account API",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.8",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shopware\\AccountApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shopware\\AccountApi\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
