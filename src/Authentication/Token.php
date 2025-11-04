@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Authentication;
+namespace TschaeferMedia\ShopwareAccountApi\Authentication;
 
 use DateTimeImmutable;
 
@@ -36,6 +36,7 @@ class Token
     {
         // Token is valid if it expires in more than 60 seconds
         $now = new DateTimeImmutable();
+
         return $this->expire->getTimestamp() - $now->getTimestamp() > 60;
     }
 

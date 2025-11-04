@@ -14,7 +14,7 @@ Modern PHP 8.1+ client library for the Shopware Account API. Manage extensions, 
 ## Installation
 
 ```bash
-composer require shopware/account-api-client
+composer require tschaefermedia/shopware-account-api-client
 ```
 
 ## Quick Start
@@ -22,7 +22,7 @@ composer require shopware/account-api-client
 ### Authentication
 
 ```php
-use Shopware\AccountApi\Client;
+use TschaeferMedia\ShopwareAccountApi\Client;
 
 // Login (token cached automatically)
 $client = Client::login(
@@ -144,7 +144,7 @@ $client->changeActiveMembership($membership);
 ### Check Extension Compatibility
 
 ```php
-use Shopware\AccountApi\UpdateCompatibility;
+use TschaeferMedia\ShopwareAccountApi\UpdateCompatibility;
 
 // Check compatibility for Shopware upgrade (no auth required)
 $compatibility = UpdateCompatibility::checkExtensionUpdates(
@@ -356,8 +356,8 @@ Default cache location: `~/.cache/shopware-account-api/token.json`
 ## Error Handling
 
 ```php
-use Shopware\AccountApi\Exception\ApiException;
-use Shopware\AccountApi\Exception\AuthenticationException;
+use TschaeferMedia\ShopwareAccountApi\Exception\ApiException;
+use TschaeferMedia\ShopwareAccountApi\Exception\AuthenticationException;
 
 try {
     $client = Client::login($email, $password);

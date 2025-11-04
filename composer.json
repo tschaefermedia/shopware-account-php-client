@@ -1,5 +1,5 @@
 {
-    "name": "shopware/account-api-client",
+    "name": "tschaefermedia/shopware-account-api-client",
     "description": "PHP client for the Shopware Account API",
     "type": "library",
     "license": "MIT",
@@ -10,13 +10,30 @@
     },
     "autoload": {
         "psr-4": {
-            "Shopware\\AccountApi\\": "src/"
+            "TschaeferMedia\\ShopwareAccountApi\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.48"
     },
     "autoload-dev": {
         "psr-4": {
-            "Shopware\\AccountApi\\Tests\\": "tests/"
+            "TschaeferMedia\\ShopwareAccountApi\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage",
+        "analyse": "phpstan analyse",
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "check": [
+            "@cs:check",
+            "@analyse",
+            "@test"
+        ]
     },
     "config": {
         "sort-packages": true,

@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi;
+namespace TschaeferMedia\ShopwareAccountApi;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\GuzzleException;
-use Shopware\AccountApi\Authentication\Token;
-use Shopware\AccountApi\Endpoints\MerchantEndpoint;
-use Shopware\AccountApi\Endpoints\ProducerEndpoint;
-use Shopware\AccountApi\Exception\ApiException;
-use Shopware\AccountApi\Exception\AuthenticationException;
-use Shopware\AccountApi\Models\Membership;
-use Shopware\AccountApi\Models\Profile;
+use GuzzleHttp\Exception\RequestException;
+use TschaeferMedia\ShopwareAccountApi\Authentication\Token;
+use TschaeferMedia\ShopwareAccountApi\Endpoints\MerchantEndpoint;
+use TschaeferMedia\ShopwareAccountApi\Endpoints\ProducerEndpoint;
+use TschaeferMedia\ShopwareAccountApi\Exception\ApiException;
+use TschaeferMedia\ShopwareAccountApi\Exception\AuthenticationException;
+use TschaeferMedia\ShopwareAccountApi\Models\Membership;
+use TschaeferMedia\ShopwareAccountApi\Models\Profile;
+use TschaeferMedia\ShopwareAccountApi\Validation\Validator;
 
 class Client
 {
@@ -37,6 +39,13 @@ class Client
                 'content-type' => 'application/json',
                 'user-agent' => 'shopware-account-api-php/1.0',
             ],
+            'timeout' => 30.0,
+            'connect_timeout' => 10.0,
+            'http_errors' => true,
+            'allow_redirects' => [
+                'max' => 5,
+                'strict' => true,
+            ],
         ]);
     }
 
@@ -45,6 +54,9 @@ class Client
      */
     public static function login(string $email, string $password, string $cacheDir = ''): self
     {
+        Validator::email($email, 'Email');
+        Validator::notEmpty($password, 'Password');
+
         $client = new self($cacheDir);
 
         // Try to load from cache first
@@ -86,6 +98,7 @@ class Client
     public function getProfile(): Profile
     {
         $this->ensureAuthenticated();
+        assert($this->token !== null);
 
         $data = $this->request('GET', sprintf('/account/%d', $this->token->userAccountId));
 
@@ -132,6 +145,7 @@ class Client
     public function changeActiveMembership(Membership $membership): void
     {
         $this->ensureAuthenticated();
+        assert($this->token !== null);
 
         $this->request('POST', sprintf('/account/%d/memberships/change', $this->token->userAccountId), [
             'membershipId' => $membership->id,
@@ -176,6 +190,7 @@ class Client
     public function request(string $method, string $path, ?array $body = null): mixed
     {
         $this->ensureAuthenticated();
+        assert($this->token !== null);
 
         $options = [
             'headers' => [
@@ -196,16 +211,19 @@ class Client
             }
 
             return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        } catch (GuzzleException $e) {
+        } catch (RequestException $e) {
             $statusCode = $e->getCode();
             $message = $e->getMessage();
 
-            if ($e->hasResponse()) {
-                $responseBody = (string) $e->getResponse()->getBody();
+            if ($e->hasResponse() && ($response = $e->getResponse()) !== null) {
+                $responseBody = (string) $response->getBody();
+
                 throw new ApiException("API request failed: $message", $statusCode, $responseBody, $e);
             }
 
             throw new ApiException("API request failed: $message", $statusCode, previous: $e);
+        } catch (GuzzleException $e) {
+            throw new ApiException("API request failed: " . $e->getMessage(), $e->getCode(), previous: $e);
         }
     }
 
@@ -216,7 +234,10 @@ class Client
      */
     public function uploadFile(string $path, string $filePath, string $fieldName = 'file', array $additionalFields = []): mixed
     {
+        Validator::fileReadable($filePath, 'Upload file');
+
         $this->ensureAuthenticated();
+        assert($this->token !== null);
 
         $multipart = [
             [
@@ -281,6 +302,8 @@ class Client
 
     private function fetchMemberships(): void
     {
+        assert($this->token !== null);
+
         $data = $this->request('GET', sprintf('/account/%d/memberships', $this->token->userAccountId));
 
         $this->memberships = array_map(
@@ -292,6 +315,7 @@ class Client
         foreach ($this->memberships as $membership) {
             if ($membership->active) {
                 $this->activeMembership = $membership;
+
                 break;
             }
         }
@@ -302,7 +326,7 @@ class Client
         $baseDir = $this->cacheDir ?: (getenv('HOME') ?: getenv('USERPROFILE')) . '/' . self::CACHE_DIR;
 
         if (!is_dir($baseDir)) {
-            mkdir($baseDir, 0755, true);
+            mkdir($baseDir, 0o700, true);
         }
 
         return $baseDir . '/' . self::TOKEN_CACHE_FILE;
@@ -317,7 +341,12 @@ class Client
         }
 
         try {
-            $data = json_decode(file_get_contents($cacheFile), true, 512, JSON_THROW_ON_ERROR);
+            $contents = file_get_contents($cacheFile);
+            if ($contents === false) {
+                return null;
+            }
+
+            $data = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
             $token = Token::fromApiResponse($data['token']);
 
@@ -344,6 +373,8 @@ class Client
 
     private function saveToCache(): void
     {
+        assert($this->token !== null);
+
         $cacheFile = $this->getCacheFilePath();
 
         $data = [
@@ -353,5 +384,6 @@ class Client
         ];
 
         file_put_contents($cacheFile, json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
+        chmod($cacheFile, 0o600);
     }
 }

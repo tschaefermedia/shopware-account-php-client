@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Shopware\AccountApi\Client;
+use TschaeferMedia\ShopwareAccountApi\Client;
 
 // Login with email and password
 $client = Client::login(

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi;
+namespace TschaeferMedia\ShopwareAccountApi;
 
 use GuzzleHttp\Client as HttpClient;
 

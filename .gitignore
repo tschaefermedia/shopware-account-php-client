@@ -3,7 +3,7 @@
 /.phpunit.cache
 /.php-cs-fixer.cache
 /.phpstan.cache
-/phpunit.xml
+/coverage/
 /.idea/
 /.vscode/
 *.cache

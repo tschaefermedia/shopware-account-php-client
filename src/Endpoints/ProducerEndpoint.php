@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Endpoints;
+namespace TschaeferMedia\ShopwareAccountApi\Endpoints;
 
-use Shopware\AccountApi\Client;
-use Shopware\AccountApi\Models\BinaryReviewResult;
-use Shopware\AccountApi\Models\Extension;
-use Shopware\AccountApi\Models\ExtensionBinary;
-use Shopware\AccountApi\Models\ExtensionImage;
-use Shopware\AccountApi\Models\Producer;
+use TschaeferMedia\ShopwareAccountApi\Client;
+use TschaeferMedia\ShopwareAccountApi\Models\BinaryReviewResult;
+use TschaeferMedia\ShopwareAccountApi\Models\Extension;
+use TschaeferMedia\ShopwareAccountApi\Models\ExtensionBinary;
+use TschaeferMedia\ShopwareAccountApi\Models\ExtensionImage;
+use TschaeferMedia\ShopwareAccountApi\Models\Producer;
+use TschaeferMedia\ShopwareAccountApi\Validation\Validator;
 
 class ProducerEndpoint
 {
@@ -71,6 +72,8 @@ class ProducerEndpoint
      */
     public function getExtensionByName(string $name): ?Extension
     {
+        Validator::notEmpty($name, 'Extension name');
+
         $extensions = $this->getExtensions(limit: 1, search: $name);
 
         foreach ($extensions as $extension) {
@@ -148,6 +151,10 @@ class ProducerEndpoint
         array $softwareVersions,
         array $changelogs = []
     ): ExtensionBinary {
+        Validator::positive($extensionId, 'Extension ID');
+        Validator::version($version, 'Version');
+        Validator::notEmptyArray($softwareVersions, 'Software versions');
+
         $data = $this->client->request(
             'POST',
             "/producers/{$this->producerId}/plugins/$extensionId/binaries",
@@ -190,6 +197,10 @@ class ProducerEndpoint
      */
     public function uploadExtensionBinaryFile(int $extensionId, int $binaryId, string $zipPath): void
     {
+        Validator::positive($extensionId, 'Extension ID');
+        Validator::positive($binaryId, 'Binary ID');
+        Validator::fileReadable($zipPath, 'ZIP file');
+
         $this->client->uploadFile(
             "/producers/{$this->producerId}/plugins/$extensionId/binaries/$binaryId/file",
             $zipPath
@@ -291,7 +302,12 @@ class ProducerEndpoint
             return $iconPath;
         }
 
-        $image = imagecreatefromstring(file_get_contents($iconPath));
+        $contents = file_get_contents($iconPath);
+        if ($contents === false) {
+            return $iconPath;
+        }
+
+        $image = imagecreatefromstring($contents);
         if ($image === false) {
             return $iconPath;
         }
@@ -302,6 +318,7 @@ class ProducerEndpoint
         // Already 256x256
         if ($width === 256 && $height === 256) {
             imagedestroy($image);
+
             return $iconPath;
         }
 

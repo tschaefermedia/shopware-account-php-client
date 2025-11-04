@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Endpoints;
+namespace TschaeferMedia\ShopwareAccountApi\Endpoints;
 
-use Shopware\AccountApi\Client;
-use Shopware\AccountApi\Models\MerchantShop;
+use TschaeferMedia\ShopwareAccountApi\Client;
+use TschaeferMedia\ShopwareAccountApi\Models\MerchantShop;
 
 class MerchantEndpoint
 {

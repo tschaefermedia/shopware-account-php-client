@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Models;
+namespace TschaeferMedia\ShopwareAccountApi\Models;
 
 class BinaryReviewResult
 {
@@ -41,6 +41,7 @@ class BinaryReviewResult
                 return true;
             }
         }
+
         return false;
     }
 
@@ -61,6 +62,7 @@ class BinaryReviewResult
                 );
             }
         }
+
         return implode("\n", $summary);
     }
 }
