@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Tests\Unit\Models;
+namespace TschaeferMedia\ShopwareAccountApi\Tests\Unit\Models;
 
 use PHPUnit\Framework\TestCase;
-use Shopware\AccountApi\Models\Membership;
+use TschaeferMedia\ShopwareAccountApi\Models\Membership;
 
 class MembershipTest extends TestCase
 {
@@ -13,7 +13,9 @@ class MembershipTest extends TestCase
     {
         $data = [
             'id' => 123,
+            'creationDate' => '2024-01-01 12:00:00',
             'active' => true,
+            'member' => ['id' => 789],
             'company' => [
                 'id' => 456,
                 'name' => 'Test Company',
@@ -36,7 +38,9 @@ class MembershipTest extends TestCase
     {
         $data = [
             'id' => 123,
+            'creationDate' => '2024-01-01 12:00:00',
             'active' => true,
+            'member' => ['id' => 789],
             'company' => ['id' => 456],
             'roles' => [
                 ['name' => 'admin'],
@@ -54,7 +58,9 @@ class MembershipTest extends TestCase
     {
         $data = [
             'id' => 123,
+            'creationDate' => '2024-01-01 12:00:00',
             'active' => true,
+            'member' => ['id' => 789],
             'company' => ['id' => 456],
             'roles' => [
                 ['name' => 'admin'],

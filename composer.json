@@ -1,5 +1,5 @@
 {
-    "name": "shopware/account-api-client",
+    "name": "tschaefermedia/shopware-account-api-client",
     "description": "PHP client for the Shopware Account API",
     "type": "library",
     "license": "MIT",
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Shopware\\AccountApi\\": "src/"
+            "TschaeferMedia\\ShopwareAccountApi\\": "src/"
         }
     },
     "require-dev": {
@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Shopware\\AccountApi\\Tests\\": "tests/"
+            "TschaeferMedia\\ShopwareAccountApi\\Tests\\": "tests/"
         }
     },
     "scripts": {

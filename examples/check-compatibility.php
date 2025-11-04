@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Shopware\AccountApi\UpdateCompatibility;
+use TschaeferMedia\ShopwareAccountApi\UpdateCompatibility;
 
 // Check extension compatibility for Shopware upgrade
 $compatibility = UpdateCompatibility::checkExtensionUpdates(

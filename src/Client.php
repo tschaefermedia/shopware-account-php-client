@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi;
+namespace TschaeferMedia\ShopwareAccountApi;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use Shopware\AccountApi\Authentication\Token;
-use Shopware\AccountApi\Endpoints\MerchantEndpoint;
-use Shopware\AccountApi\Endpoints\ProducerEndpoint;
-use Shopware\AccountApi\Exception\ApiException;
-use Shopware\AccountApi\Exception\AuthenticationException;
-use Shopware\AccountApi\Models\Membership;
-use Shopware\AccountApi\Models\Profile;
-use Shopware\AccountApi\Validation\Validator;
+use TschaeferMedia\ShopwareAccountApi\Authentication\Token;
+use TschaeferMedia\ShopwareAccountApi\Endpoints\MerchantEndpoint;
+use TschaeferMedia\ShopwareAccountApi\Endpoints\ProducerEndpoint;
+use TschaeferMedia\ShopwareAccountApi\Exception\ApiException;
+use TschaeferMedia\ShopwareAccountApi\Exception\AuthenticationException;
+use TschaeferMedia\ShopwareAccountApi\Models\Membership;
+use TschaeferMedia\ShopwareAccountApi\Models\Profile;
+use TschaeferMedia\ShopwareAccountApi\Validation\Validator;
 
 class Client
 {

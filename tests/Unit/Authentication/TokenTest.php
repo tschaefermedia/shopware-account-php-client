@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Tests\Unit\Authentication;
+namespace TschaeferMedia\ShopwareAccountApi\Tests\Unit\Authentication;
 
 use PHPUnit\Framework\TestCase;
-use Shopware\AccountApi\Authentication\Token;
+use TschaeferMedia\ShopwareAccountApi\Authentication\Token;
 
 class TokenTest extends TestCase
 {
@@ -16,14 +16,14 @@ class TokenTest extends TestCase
             'expire' => [
                 'date' => '2025-12-31 23:59:59',
             ],
-            'userId' => 42,
+            'userAccountId' => 42,
         ];
 
         $token = Token::fromApiResponse($data);
 
         $this->assertSame('test-token-123', $token->token);
         $this->assertSame(42, $token->userAccountId);
-        $this->assertInstanceOf(\DateTimeInterface::class, $token->expiresAt);
+        $this->assertInstanceOf(\DateTimeInterface::class, $token->expire);
     }
 
     public function testIsValidWithFutureExpiry(): void
@@ -34,7 +34,7 @@ class TokenTest extends TestCase
             'expire' => [
                 'date' => $futureDate->format('Y-m-d H:i:s'),
             ],
-            'userId' => 1,
+            'userAccountId' => 1,
         ];
 
         $token = Token::fromApiResponse($data);
@@ -50,7 +50,7 @@ class TokenTest extends TestCase
             'expire' => [
                 'date' => $pastDate->format('Y-m-d H:i:s'),
             ],
-            'userId' => 1,
+            'userAccountId' => 1,
         ];
 
         $token = Token::fromApiResponse($data);
@@ -65,7 +65,7 @@ class TokenTest extends TestCase
             'expire' => [
                 'date' => '2025-12-31 23:59:59',
             ],
-            'userId' => 1,
+            'userAccountId' => 1,
         ];
 
         $token = Token::fromApiResponse($data);
@@ -74,6 +74,6 @@ class TokenTest extends TestCase
         $this->assertIsArray($array);
         $this->assertSame('test-token', $array['token']);
         $this->assertArrayHasKey('expire', $array);
-        $this->assertSame(1, $array['userId']);
+        $this->assertSame(1, $array['userAccountId']);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Models;
+namespace TschaeferMedia\ShopwareAccountApi\Models;
 
 class ExtensionBinary
 {

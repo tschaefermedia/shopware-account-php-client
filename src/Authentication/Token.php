@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Authentication;
+namespace TschaeferMedia\ShopwareAccountApi\Authentication;
 
 use DateTimeImmutable;
 

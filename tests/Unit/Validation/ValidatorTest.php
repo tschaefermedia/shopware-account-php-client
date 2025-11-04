@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Tests\Unit\Validation;
+namespace TschaeferMedia\ShopwareAccountApi\Tests\Unit\Validation;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Shopware\AccountApi\Validation\Validator;
+use TschaeferMedia\ShopwareAccountApi\Validation\Validator;
 
 class ValidatorTest extends TestCase
 {

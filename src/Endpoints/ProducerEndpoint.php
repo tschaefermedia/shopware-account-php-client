@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Endpoints;
+namespace TschaeferMedia\ShopwareAccountApi\Endpoints;
 
-use Shopware\AccountApi\Client;
-use Shopware\AccountApi\Models\BinaryReviewResult;
-use Shopware\AccountApi\Models\Extension;
-use Shopware\AccountApi\Models\ExtensionBinary;
-use Shopware\AccountApi\Models\ExtensionImage;
-use Shopware\AccountApi\Models\Producer;
-use Shopware\AccountApi\Validation\Validator;
+use TschaeferMedia\ShopwareAccountApi\Client;
+use TschaeferMedia\ShopwareAccountApi\Models\BinaryReviewResult;
+use TschaeferMedia\ShopwareAccountApi\Models\Extension;
+use TschaeferMedia\ShopwareAccountApi\Models\ExtensionBinary;
+use TschaeferMedia\ShopwareAccountApi\Models\ExtensionImage;
+use TschaeferMedia\ShopwareAccountApi\Models\Producer;
+use TschaeferMedia\ShopwareAccountApi\Validation\Validator;
 
 class ProducerEndpoint
 {

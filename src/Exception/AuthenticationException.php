@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Exception;
+namespace TschaeferMedia\ShopwareAccountApi\Exception;
 
 class AuthenticationException extends ApiException
 {

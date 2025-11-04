@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shopware\AccountApi\Validation;
+namespace TschaeferMedia\ShopwareAccountApi\Validation;
 
 use InvalidArgumentException;
 
